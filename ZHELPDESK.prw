@@ -49,7 +49,7 @@ return oBrowse
 
 
 /*/{Protheus.doc} ModelDef
-Function responsible for creating the data stracute and returning it
+Function responsible for creating the data structure and returning it
 @type function
 @version 1.0
 @author Josue Oliveira
@@ -81,3 +81,30 @@ oModel:GetModel("SZ2MASTER"):SetDescption("CABECALHO DO CHAMADO")
 oModel:GetModel("SZ3DETAIL"):SetDescption("COMENTARIOS DO CHAMADO")
 
 return oModel
+
+
+Static Function ViewDef()
+Local oView := NIL
+
+//Model of the function
+Local oModel:= FwloadModel("ZHELPDESK")
+
+Local oParentZ2 := FWFormStruct(2,"SZ2")
+Local oChildZ3  := FWFormStruct(2,"SZ3")
+
+oView :=FWFormView():New()
+oView:SetModel(oModel)
+
+oView:AddField("VIEWSZ2",oParentZ2,"SZ2MASTER")
+oView:AddGrid("VIEWSZ3",oChildZ3,"SZ3DETAIL")
+
+oView:CreateHorizontalBox("HEAD",60)
+oView:CreateHorizontalBox("GRID",40)
+
+oView:SetOwnerView("VIEWSZ2","HEAD")
+oView:SetOwnerView("VIEWSZ3","GRID")
+
+oView:EnableTitleView("VIEWSZ2","Detalhes do Chamado")
+oView:EnableTitleView("VIEWSZ3","Comentários do chamado")
+
+return oView
