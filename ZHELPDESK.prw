@@ -108,3 +108,22 @@ oView:EnableTitleView("VIEWSZ2","Detalhes do Chamado")
 oView:EnableTitleView("VIEWSZ3","Comentários do chamado")
 
 return oView
+
+
+/*/{Protheus.doc} SZ2LEG
+Function that return the status legend of the ticket 
+@type function
+@version  1.0
+@author Josue Oliveira
+@since 14/01/2023
+/*/
+User Function SZ2LEGEND()
+Local aLegend := {}
+
+aAdd(aLegend,{"BR_VERDE",  "Chamado Aberto"})
+aAdd(aLegend,{"BR_AMARELO","Chamado em Andamento"})
+aAdd(aLegend,{"BR_VERMELHO",  "Chamado Finalizado"})
+
+BrwLegenda("Status dos chamados",,aLegend)
+
+return aLegend
