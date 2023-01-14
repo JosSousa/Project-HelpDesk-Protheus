@@ -127,3 +127,20 @@ aAdd(aLegend,{"BR_VERMELHO",  "Chamado Finalizado"})
 BrwLegenda("Status dos chamados",,aLegend)
 
 return aLegend
+
+
+/*/{Protheus.doc} SZ2ABOUT
+Function that return about de routine
+@type function
+@version  1.0
+@author Josue Oliveira
+@since 14/01/2023
+/*/
+User Function SZ2ABOUT()
+Local cAbout
+
+cAbout := "-<b>Uma rotina utilizada para abrir tickets de suporte"
+
+MsgInfo(cAbout,"Sobre esta rotina")
+
+return cAbout
