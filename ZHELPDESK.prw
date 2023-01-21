@@ -109,6 +109,8 @@ aTrigUser[4])
 oModel:AddFields("SZ2MASTER",,oParentZ2) //header
 oModel:AddGrid("SZ3DETAIL","SZ2MASTER",oChildZ3,,,,,)//itens
 
+oModel:SetVldActivate({|oModel|VALIDATEUSR(oModel)})
+
 //defines the relation between the parent-child tables
 oModel:SetRelation("SZ3DETAIL",{{"Z3_FILIAL","xFilial('SZ2')"},{"Z3_CHAMADO","Z2_COD"}},SZ3->(Indexkey(1)))
 
@@ -193,3 +195,31 @@ cAbout := "-<b>Uma rotina utilizada para abrir tickets de suporte"
 MsgInfo(cAbout,"Sobre esta rotina")
 
 return cAbout
+
+/*/{Protheus.doc} MActivVld
+Function that validate if the user have permission to 
+edit o user code who included the ticket. The validation 
+is made trough the MV_XUSMVC parameter.
+@type function
+@version  1.0
+@author Josue Oliveira
+@since 18/01/2023
+@see https://terminaldeinformacao.com/knowledgebase/supergetmv/
+@see https://tecnologia.bynem.com.br/advpl-help/#:~:text=Esta%20fun%C3%A7%C3%A3o%20exibe%20a%20ajuda,texto%20em%20tempo%20de%20execu%C3%A7%C3%A3o.
+@see https://centraldeatendimento.totvs.com/hc/pt-br/articles/360040694374-Cross-Segmento-TOTVS-Backoffice-Linha-Protheus-ADVPL-Bloquear-campos-por-ponto-MVC
+/*/
+Static function VALIDATEUSR(oModel)
+Local lRet := .T.
+
+Local cUserMVC := SUPERGETMV("MV_XUSMVC")
+Local cCodUsers := RetCodUsr()
+
+IF (cCodUsers$cUserMVC)
+    oModel:GetModel("SZ2MASTER"):GetStruct():SetProperty("Z2_DATA",    MODEL_FIELD_WHEN, FwBuildFeature(STRUCT_FEATURE_WHEN,".T."))
+    oModel:GetModel("SZ2MASTER"):GetStruct():SetProperty("Z2_USUARIO", MODEL_FIELD_WHEN, FwBuildFeature(STRUCT_FEATURE_WHEN,".T."))
+ELSE
+    oModel:GetModel("SZ2MASTER"):GetStruct():SetProperty("Z2_DATA",    MODEL_FIELD_WHEN, FwBuildFeature(STRUCT_FEATURE_WHEN,".F."))
+    oModel:GetModel("SZ2MASTER"):GetStruct():SetProperty("Z2_USUARIO", MODEL_FIELD_WHEN, FwBuildFeature(STRUCT_FEATURE_WHEN,".F."))
+ENDIF
+
+Return lRet
