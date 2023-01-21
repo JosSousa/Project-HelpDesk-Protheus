@@ -91,6 +91,20 @@ Local oChildZ3  := FwFormStruct(1, "SZ3")
 
 oChildZ3:SetProperty("Z3_CHAMADO",MODEL_FIELD_INIT,FwBuildFeature(STRUCT_FEATURE_INIPAD,"SZ2->Z2_COD"))
 
+aTrigUser := FwStruTrigger(;
+"Z2_USUARIO",;
+"Z2_USERNAM",;
+"USRRETNAME(M->Z2_USUARIO)",;
+.F.)
+
+
+oParentZ2:AddTrigger(;
+aTrigUser[1],;
+aTrigUser[2],;
+aTrigUser[3],;
+aTrigUser[4])
+
+
 //Creates the data model as header and itens
 oModel:AddFields("SZ2MASTER",,oParentZ2) //header
 oModel:AddGrid("SZ3DETAIL","SZ2MASTER",oChildZ3,,,,,)//itens
@@ -121,6 +135,7 @@ oChildZ3:RemoveField("Z3_CHAMADO")
 
 oChildZ3:SetProperty("Z3_CODIGO", MVC_VIEW_CANCHANGE, .F.)
 
+oParentZ2:SetProperty("Z2_USUARIO", MVC_VIEW_LOOKUP, "USR")
 
 oView := FwFormView():New()
 oView:SetModel(oModel)
